@@ -1,7 +1,5 @@
 package com.luther.demo.swagger;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -17,29 +15,95 @@ import springfox.documentation.spring.web.plugins.Docket;
  * PackageName: com.luther.demo.swagger
  * TODO:
  */
-@Configuration
 public class Swagger {
 
-    public static final String SWAGGER_SCAN_BASE_PACKAGE = "com.luther.demo";
-    public static final String VERSION = "1.0.0";
+    private String basePackage;
+    private String version;
 
-    @Bean
-    public Docket createRestApi() {
+    private String title;
+    private String description;
+    private String docLinkName;
+    private String docLinkUrl;
+    private String docLinkEmail;
+    private String license;
+
+    Swagger(String basePackage,
+            String version,
+            String title,
+            String description,
+            String docLinkName,
+            String docLinkUrl,
+            String docLinkEmail,
+            String license) {
+        this.basePackage = basePackage;
+        this.version = version;
+        this.title = title;
+        this.description = description;
+        this.docLinkName = docLinkName;
+        this.docLinkEmail = docLinkEmail;
+        this.docLinkUrl = docLinkUrl;
+        this.license = license;
+    }
+
+    /**
+     * API文档配置信息
+     *
+     * @return
+     */
+    Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(SWAGGER_SCAN_BASE_PACKAGE))//api接口包扫描路径
+                .apis(RequestHandlerSelectors.basePackage(basePackage))//api接口包扫描路径
                 .paths(PathSelectors.any())//可以根据url路径设置哪些请求加入文档，忽略哪些请求
                 .build();
     }
 
+    /**
+     * 文档的说明信息
+     *
+     * @return
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Swagger接口文档Demo")//设置文档的标题
-                .description("简单优雅的restfun风格")//设置文档的描述->1.Overview
-                .version(VERSION)//设置文档的版本信息-> 1.1 Version information
-                .contact(new Contact("ABC Boot", "http://www.abc.comt", ""))//设置文档的联系方式->1.2 Contact information
-                .termsOfServiceUrl("www.abc.com")//设置文档的License信息->1.3 License information
+                .title(title)//设置文档的标题
+                .description(description)//设置文档的描述->1.Overview
+                .version(version)//设置文档的版本信息-> 1.1 Version information
+                .contact(new Contact(docLinkName, docLinkUrl, docLinkEmail))//设置文档的联系方式->1.2 Contact information
+                .termsOfServiceUrl(license)//设置文档的License信息->1.3 License information
                 .build();
+    }
+
+    Swagger setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+        return this;
+    }
+
+    void setVersion(String version) {
+        this.version = version;
+    }
+
+    void setTitle(String title) {
+        this.title = title;
+    }
+
+    void setDescription(String description) {
+        this.description = description;
+    }
+
+    void setDocLinkName(String docLinkName) {
+        this.docLinkName = docLinkName;
+    }
+
+    void setDocLinkUrl(String docLinkUrl) {
+        this.docLinkUrl = docLinkUrl;
+    }
+
+    void setDocLinkEmail(String docLinkEmail) {
+        this.docLinkEmail = docLinkEmail;
+    }
+
+    void setLicense(String license) {
+        this.license = license;
     }
 }

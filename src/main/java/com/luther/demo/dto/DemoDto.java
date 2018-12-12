@@ -1,5 +1,6 @@
 package com.luther.demo.dto;
 
+import com.luther.demo.swagger.Swagger;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
